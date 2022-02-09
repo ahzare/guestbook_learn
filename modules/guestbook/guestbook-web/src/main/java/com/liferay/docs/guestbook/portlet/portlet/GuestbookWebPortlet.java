@@ -1,8 +1,8 @@
 package com.liferay.docs.guestbook.portlet.portlet;
 
+import com.liferay.docs.guestbook.constants.GuestbookWebPortletKeys;
 import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.model.GuestbookEntry;
-import com.liferay.docs.guestbook.constants.GuestbookWebPortletKeys;
 
 import com.liferay.docs.guestbook.service.GuestbookEntryLocalService;
 import com.liferay.docs.guestbook.service.GuestbookLocalService;
@@ -165,6 +165,8 @@ public class GuestbookWebPortlet extends MVCPortlet {
 		catch (Exception e) {
 			throw new PortletException(e);
 		}
+
+		System.out.println("rr = " + renderResponse);
 
 		super.render(renderRequest, renderResponse);
 	}

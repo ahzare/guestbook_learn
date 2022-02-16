@@ -10,18 +10,18 @@
 
 <portlet:renderURL var="searchURL">
     <portlet:param name="mvcPath"
-                   value="/guestbook/view_search.jsp" />
+                   value="/guestbook/view_search.jsp"/>
 </portlet:renderURL>
 
 <aui:form action="${searchURL}" name="fm">
 
     <div class="row">
         <div class="col-md-8">
-            <aui:input inlineLabel="left" label="" name="keywords" placeholder="search-entries" size="256" />
+            <aui:input inlineLabel="left" label="" name="keywords" placeholder="search-entries" size="256"/>
         </div>
 
         <div class="col-md-4">
-            <aui:button type="submit" value="search" />
+            <aui:button type="submit" value="search"/>
         </div>
     </div>
 
@@ -30,7 +30,8 @@
 <aui:nav cssClass="nav-tabs">
 
     <%
-        List<Guestbook> guestbooks = GuestbookLocalServiceUtil.getGuestbooks(scopeGroupId);
+        List<Guestbook> guestbooks = GuestbookLocalServiceUtil
+                .getGuestbooks(scopeGroupId, WorkflowConstants.STATUS_APPROVED);
 
         for (int i = 0; i < guestbooks.size(); i++) {
 
@@ -80,11 +81,14 @@
 
 </aui:button-row>
 
-<liferay-ui:search-container total="<%=GuestbookEntryLocalServiceUtil.getGuestbookEntriesCount()%>">
-    <liferay-ui:search-container-results
-            results="<%=GuestbookEntryLocalServiceUtil.getGuestbookEntries(scopeGroupId.longValue(),
-                    guestbookId, searchContainer.getStart(),
-                    searchContainer.getEnd())%>"/>
+<liferay-ui:search-container total="<%=GuestbookEntryLocalServiceUtil.
+                getGuestbookEntriesCount(scopeGroupId.longValue(),
+                guestbookId, WorkflowConstants.STATUS_APPROVED)%>">
+    <liferay-ui:search-container-results results=
+                                                 "<%=GuestbookEntryLocalServiceUtil.getGuestbookEntries(
+                scopeGroupId.longValue(), guestbookId,
+                WorkflowConstants.STATUS_APPROVED,
+                searchContainer.getStart(), searchContainer.getEnd())%>"/>
 
     <liferay-ui:search-container-row
             className="com.liferay.docs.guestbook.model.GuestbookEntry" modelVar="entry">

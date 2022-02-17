@@ -1,6 +1,7 @@
 <%@include file="../init.jsp" %>
 
 <liferay-ui:success key="entryAdded" message="entry-added"/>
+<liferay-ui:success key="entryUpdated" message="entry-updated"/>
 <liferay-ui:success key="entryDeleted" message="entry-deleted"/>
 
 

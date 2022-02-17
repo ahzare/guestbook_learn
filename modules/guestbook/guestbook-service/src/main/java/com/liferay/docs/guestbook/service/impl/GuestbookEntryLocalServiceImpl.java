@@ -190,10 +190,6 @@ public class GuestbookEntryLocalServiceImpl
 		GuestbookEntry entry =
 				guestbookEntryPersistence.findByPrimaryKey(entryId);
 
-		workflowInstanceLinkLocalService.deleteWorkflowInstanceLinks(
-				entry.getCompanyId(), entry.getGroupId(),
-				GuestbookEntry.class.getName(), entry.getEntryId());
-
 		return deleteGuestbookEntry(entry);
 	}
 

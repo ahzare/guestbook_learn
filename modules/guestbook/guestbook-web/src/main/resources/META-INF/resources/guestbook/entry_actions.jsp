@@ -1,34 +1,34 @@
-<%@include file="../init.jsp"%>
+<%@include file="../init.jsp" %>
 
 <%
     String mvcPath = ParamUtil.getString(request, "mvcPath");
 
-    ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
+    ResultRow row = (ResultRow) request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
 
-    GuestbookEntry entry = (GuestbookEntry)row.getObject();
+    GuestbookEntry entry = (GuestbookEntry) row.getObject();
 %>
 
 <liferay-ui:icon-menu>
 
     <portlet:renderURL var="viewEntryURL">
         <portlet:param name="entryId"
-                       value="<%= String.valueOf(entry.getEntryId()) %>" />
+                       value="<%= String.valueOf(entry.getEntryId()) %>"/>
         <portlet:param name="mvcPath"
-                       value="/guestbook/view_entry.jsp" />
+                       value="/guestbook/view_entry.jsp"/>
     </portlet:renderURL>
 
-    <liferay-ui:icon message="View" url="<%= viewEntryURL.toString() %>" />
+    <liferay-ui:icon message="View" url="<%= viewEntryURL.toString() %>"/>
 
     <c:if
             test="<%= GuestbookEntryPermission.contains(permissionChecker, entry.getEntryId(), ActionKeys.UPDATE) %>">
         <portlet:renderURL var="editURL">
             <portlet:param name="entryId"
-                           value="<%= String.valueOf(entry.getEntryId()) %>" />
-            <portlet:param name="mvcPath" value="/guestbook/edit_entry.jsp" />
+                           value="<%= String.valueOf(entry.getEntryId()) %>"/>
+            <portlet:param name="mvcPath" value="/guestbook/edit_entry.jsp"/>
         </portlet:renderURL>
 
         <liferay-ui:icon image="edit" message="Edit"
-                         url="<%=editURL.toString() %>" />
+                         url="<%=editURL.toString() %>"/>
     </c:if>
 
     <c:if
@@ -38,9 +38,9 @@
                 modelResource="<%= GuestbookEntry.class.getName() %>"
                 modelResourceDescription="<%= entry.getMessage() %>"
                 resourcePrimKey="<%= String.valueOf(entry.getEntryId()) %>"
-                var="permissionsURL" />
+                var="permissionsURL"/>
 
-        <liferay-ui:icon image="permissions" url="<%= permissionsURL %>" />
+        <liferay-ui:icon image="permissions" url="<%= permissionsURL %>"/>
 
     </c:if>
 
@@ -49,12 +49,12 @@
 
         <portlet:actionURL name="deleteEntry" var="deleteURL">
             <portlet:param name="entryId"
-                           value="<%= String.valueOf(entry.getEntryId()) %>" />
+                           value="<%= String.valueOf(entry.getEntryId()) %>"/>
             <portlet:param name="guestbookId"
-                           value="<%= String.valueOf(entry.getGuestbookId()) %>" />
+                           value="<%= String.valueOf(entry.getGuestbookId()) %>"/>
         </portlet:actionURL>
 
-        <liferay-ui:icon-delete url="<%=deleteURL.toString() %>" />
+        <liferay-ui:icon-delete url="<%=deleteURL.toString() %>"/>
     </c:if>
 
 </liferay-ui:icon-menu>

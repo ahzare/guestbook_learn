@@ -59,7 +59,6 @@
 </dl>
 
 <c:if test="<%= themeDisplay.isSignedIn() %>">
-    ... your panel container ...
 <liferay-ui:panel-container extended="<%=false%>"
                             id="guestbookCollaborationPanelContainer" persistState="<%=true%>">
     <liferay-ui:panel collapsible="<%=true%>" extended="<%=true%>"

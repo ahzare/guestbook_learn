@@ -23,7 +23,8 @@ import javax.servlet.ServletContext;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Component(immediate = true,
+@Component(
+        immediate = true,
         property = {"javax.portlet.name=" + GuestbookWebPortletKeys.GUESTBOOK},
         service = AssetRendererFactory.class
 )
@@ -33,7 +34,8 @@ public class GuestbookAssetRendererFactory extends
     public GuestbookAssetRendererFactory() {
         setClassName(CLASS_NAME);
         setLinkable(_LINKABLE);
-        setPortletId(GuestbookWebPortletKeys.GUESTBOOK); setSearchable(true);
+        setPortletId(GuestbookWebPortletKeys.GUESTBOOK);
+        setSearchable(true);
         setSelectable(true);
     }
 
@@ -84,7 +86,9 @@ public class GuestbookAssetRendererFactory extends
 
             portletURL = liferayPortletResponse.createLiferayPortletURL(getControlPanelPlid(themeDisplay),
                     GuestbookWebPortletKeys.GUESTBOOK, PortletRequest.RENDER_PHASE);
-            portletURL.setParameter("mvcPath", "/guestbook/edit_guestbook.jsp");
+            // change mvc path because it didn't exist in directory
+//            portletURL.setParameter("mvcPath", "/guestbook/edit_guestbook.jsp");
+            portletURL.setParameter("mvcPath", "/guestbook_admin/edit_guestbook.jsp");
             portletURL.setParameter("showback", Boolean.FALSE.toString());
 
         } catch (PortalException e) {

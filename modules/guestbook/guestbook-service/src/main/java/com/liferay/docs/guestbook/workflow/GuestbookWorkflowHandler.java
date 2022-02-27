@@ -17,7 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Component(immediate = true, service = WorkflowHandler.class)
-public class GuestbookWorkflowHandler  extends BaseWorkflowHandler<Guestbook> {
+public class GuestbookWorkflowHandler extends BaseWorkflowHandler<Guestbook> {
 
     @Override
     public String getClassName() {
@@ -35,12 +35,12 @@ public class GuestbookWorkflowHandler  extends BaseWorkflowHandler<Guestbook> {
             throws PortalException {
 
         long userId = GetterUtil.getLong(
-                (String)workflowContext.get(WorkflowConstants.CONTEXT_USER_ID));
+                (String) workflowContext.get(WorkflowConstants.CONTEXT_USER_ID));
         long resourcePrimKey = GetterUtil.getLong(
-                (String)workflowContext.get(
+                (String) workflowContext.get(
                         WorkflowConstants.CONTEXT_ENTRY_CLASS_PK));
 
-        ServiceContext serviceContext = (ServiceContext)workflowContext.get(
+        ServiceContext serviceContext = (ServiceContext) workflowContext.get(
                 "serviceContext");
 
         return _guestbookLocalService.updateStatus(

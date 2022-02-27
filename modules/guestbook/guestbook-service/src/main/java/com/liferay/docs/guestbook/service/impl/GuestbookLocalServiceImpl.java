@@ -149,6 +149,28 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
         return guestbook;
     }
 
+    public Guestbook updateStatus(long userId, long guestbookId, int status,
+                                  ServiceContext serviceContext) throws PortalException,
+            SystemException {
+
+        User user = userLocalService.getUser(userId);
+        Guestbook guestbook = getGuestbook(guestbookId);
+
+        guestbook.setStatus(status);
+        guestbook.setStatusByUserId(userId);
+        guestbook.setStatusByUserName(user.getFullName());
+        guestbook.setStatusDate(new Date());
+
+        guestbookPersistence.update(guestbook);
+
+        // simplifying if else
+        // for controlling show in asset publisher and search
+        assetEntryLocalService.updateVisible(Guestbook.class.getName(),
+                guestbookId, status == WorkflowConstants.STATUS_APPROVED);
+
+        return guestbook;
+    }
+
     @Indexable(type = IndexableType.DELETE)
     public Guestbook deleteGuestbook(long guestbookId,
                                      ServiceContext serviceContext) throws PortalException,
@@ -191,33 +213,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
         return guestbook;
     }
 
-    public Guestbook updateStatus(long userId, long guestbookId, int status,
-                                  ServiceContext serviceContext) throws PortalException,
-            SystemException {
 
-        User user = userLocalService.getUser(userId);
-        Guestbook guestbook = getGuestbook(guestbookId);
-
-        guestbook.setStatus(status);
-        guestbook.setStatusByUserId(userId);
-        guestbook.setStatusByUserName(user.getFullName());
-        guestbook.setStatusDate(new Date());
-
-        guestbookPersistence.update(guestbook);
-
-        if (status == WorkflowConstants.STATUS_APPROVED) {
-
-            assetEntryLocalService.updateVisible(Guestbook.class.getName(),
-                    guestbookId, true);
-
-        } else {
-
-            assetEntryLocalService.updateVisible(Guestbook.class.getName(),
-                    guestbookId, false);
-        }
-
-        return guestbook;
-    }
 
     public List<Guestbook> getGuestbooks(long groupId) {
 
@@ -239,7 +235,7 @@ public class GuestbookLocalServiceImpl extends GuestbookLocalServiceBaseImpl {
             throws SystemException {
 
         return guestbookPersistence.findByG_S(
-                groupId, WorkflowConstants.STATUS_APPROVED);
+                groupId, status);
     }
 
 

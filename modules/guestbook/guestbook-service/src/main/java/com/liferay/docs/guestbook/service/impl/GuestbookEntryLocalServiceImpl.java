@@ -161,6 +161,28 @@ public class GuestbookEntryLocalServiceImpl
 		return entry;
 	}
 
+	public GuestbookEntry updateStatus(long userId, long guestbookId, long entryId, int status,
+									   ServiceContext serviceContext) throws PortalException,
+			SystemException {
+
+		User user = userLocalService.getUser(userId);
+		GuestbookEntry entry = getGuestbookEntry(entryId);
+
+		entry.setStatus(status);
+		entry.setStatusByUserId(userId);
+		entry.setStatusByUserName(user.getFullName());
+		entry.setStatusDate(new Date());
+
+		guestbookEntryPersistence.update(entry);
+
+		// simplifying if else
+		// for controlling show in asset publisher and search
+		assetEntryLocalService.updateVisible(GuestbookEntry.class.getName(),
+				entryId, status == WorkflowConstants.STATUS_APPROVED);
+
+		return entry;
+	}
+
 	@Indexable(type = IndexableType.DELETE)
 	public GuestbookEntry deleteGuestbookEntry(GuestbookEntry entry)
 			throws PortalException{
@@ -216,7 +238,7 @@ public class GuestbookEntryLocalServiceImpl
 			throws SystemException {
 
 		return guestbookEntryPersistence.findByG_G_S(
-				groupId, guestbookId, WorkflowConstants.STATUS_APPROVED);
+				groupId, guestbookId, status);
 	}
 
 	public int getGuestbookEntriesCount(
@@ -224,7 +246,7 @@ public class GuestbookEntryLocalServiceImpl
 			throws SystemException {
 
 		return guestbookEntryPersistence.countByG_G_S(
-				groupId, guestbookId, WorkflowConstants.STATUS_APPROVED);
+				groupId, guestbookId, status);
 	}
 
 	public GuestbookEntry getGuestbookEntry(long entryId) throws PortalException {
@@ -249,33 +271,5 @@ public class GuestbookEntryLocalServiceImpl
 		if (Validator.isNull(entry)) {
 			throw new GuestbookEntryMessageException();
 		}
-	}
-
-	public GuestbookEntry updateStatus(long userId, long guestbookId, long entryId, int status,
-									   ServiceContext serviceContext) throws PortalException,
-			SystemException {
-
-		User user = userLocalService.getUser(userId);
-		GuestbookEntry entry = getGuestbookEntry(entryId);
-
-		entry.setStatus(status);
-		entry.setStatusByUserId(userId);
-		entry.setStatusByUserName(user.getFullName());
-		entry.setStatusDate(new Date());
-
-		guestbookEntryPersistence.update(entry);
-
-		if (status == WorkflowConstants.STATUS_APPROVED) {
-
-			assetEntryLocalService.updateVisible(GuestbookEntry.class.getName(),
-					entryId, true);
-
-		} else {
-
-			assetEntryLocalService.updateVisible(GuestbookEntry.class.getName(),
-					entryId, false);
-		}
-
-		return entry;
 	}
 }
